@@ -1,4 +1,4 @@
-const SCRIPT_ID = 'sw-cache-blocker-inject';
+const SCRIPT_ID = 'sw-blocker-inject';
 
 // --- Dynamic content script registration ---
 
@@ -131,10 +131,10 @@ async function cleanupDomains(domains) {
         discoveredOrigins.add(r.origin);
         totalUnregistered += r.count;
         if (r.count > 0) originsWithHits.add(r.origin);
-        console.log(`[SWCB] Tab ${tab.id} frame ${r.origin}: ${r.count} SW(s)`, r.scopes, r.error || '');
+        console.log(`[SWB] Tab ${tab.id} frame ${r.origin}: ${r.count} SW(s)`, r.scopes, r.error || '');
       }
     } catch (err) {
-      console.warn(`[SWCB] Failed on tab ${tab.id}:`, err);
+      console.warn(`[SWB] Failed on tab ${tab.id}:`, err);
     }
   }
 
@@ -162,10 +162,10 @@ async function cleanupDomains(domains) {
         if (!r) continue;
         discoveredOrigins.add(r.origin);
         totalUnregistered += r.count;
-        console.log(`[SWCB] Temp ${domain} frame ${r.origin}: ${r.count} SW(s)`, r.scopes, r.error || '');
+        console.log(`[SWB] Temp ${domain} frame ${r.origin}: ${r.count} SW(s)`, r.scopes, r.error || '');
       }
     } catch (err) {
-      console.warn(`[SWCB] Temp tab failed for ${domain}:`, err);
+      console.warn(`[SWB] Temp tab failed for ${domain}:`, err);
     } finally {
       if (tempTab?.id) chrome.tabs.remove(tempTab.id).catch(() => {});
     }
@@ -178,13 +178,13 @@ async function cleanupDomains(domains) {
     }
   }
 
-  console.log(`[SWCB] Total unregistered: ${totalUnregistered}`);
-  console.log('[SWCB] browsingData.remove origins:', [...discoveredOrigins]);
+  console.log(`[SWB] Total unregistered: ${totalUnregistered}`);
+  console.log('[SWB] browsingData.remove origins:', [...discoveredOrigins]);
 
   // 4a. browsingData.remove for cache storage (supports origins filter)
   if (discoveredOrigins.size > 0) {
     const origins = [...discoveredOrigins];
-    console.log('[SWCB] Clearing cacheStorage for origins:', origins);
+    console.log('[SWB] Clearing cacheStorage for origins:', origins);
     await new Promise((resolve) => {
       chrome.browsingData.remove({ origins }, { cacheStorage: true }, resolve);
     });
@@ -192,11 +192,11 @@ async function cleanupDomains(domains) {
 
   // 4b. browsingData.remove for service workers (origins filter NOT supported per Chrome docs,
   //     so we must remove globally — other sites re-register on next visit)
-  console.log('[SWCB] Clearing serviceWorkers globally');
+  console.log('[SWB] Clearing serviceWorkers globally');
   await new Promise((resolve) => {
     chrome.browsingData.remove({}, { serviceWorkers: true }, resolve);
   });
-  console.log('[SWCB] browsingData.remove completed');
+  console.log('[SWB] browsingData.remove completed');
 
   // 5. Reload matched tabs so inject.js blocks re-registration
   for (const tab of matchedTabs) {
@@ -231,7 +231,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     cleanupDomains(msg.domains).then(
       () => sendResponse({ success: true }),
       (err) => {
-        console.error('[SWCB] Cleanup error:', err);
+        console.error('[SWB] Cleanup error:', err);
         sendResponse({ success: false, error: String(err) });
       }
     );

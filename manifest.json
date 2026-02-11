@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "SW & Cache Blocker",
+  "name": "Service Worker Blocker",
   "version": "1.0.0",
   "description": "Block Service Worker registration and Cache Storage for selected domains",
   "permissions": [

@@ -5,11 +5,11 @@
 (function () {
   'use strict';
 
-  if (window.__swcb_active__) return;
+  if (window.__swb_active__) return;
 
-  const TAG = '[SW & Cache Blocker]';
+  const TAG = '[SW Blocker]';
 
-  Object.defineProperty(window, '__swcb_active__', {
+  Object.defineProperty(window, '__swb_active__', {
     value: true,
     enumerable: false,
     configurable: false,
@@ -22,7 +22,7 @@
       console.warn(TAG, 'Blocked SW registration:', scriptURL);
       return Promise.reject(
         new DOMException(
-          'Service Worker registration blocked by SW & Cache Blocker extension',
+          'Service Worker registration blocked by SW Blocker extension',
           'SecurityError'
         )
       );
@@ -46,7 +46,7 @@
           default:
             return Promise.reject(
               new DOMException(
-                'Cache Storage blocked by SW & Cache Blocker extension',
+                'Cache Storage blocked by SW Blocker extension',
                 'SecurityError'
               )
             );

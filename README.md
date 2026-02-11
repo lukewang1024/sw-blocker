@@ -1,6 +1,6 @@
-# SW & Cache Blocker
+# Service Worker Blocker
 
-A Chrome extension that blocks Service Worker registration and Cache Storage access on domains you choose.
+A browser extension that blocks Service Worker registration and Cache Storage access on domains you choose.
 
 Some websites aggressively use Service Workers and Cache Storage in ways that cause stale content, excessive disk usage, or interfere with development. This extension lets you maintain a blocklist of domains where these APIs are completely disabled.
 
