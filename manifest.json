@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "SW & Cache Blocker",
+  "version": "1.0.0",
+  "description": "Block Service Worker registration and Cache Storage for blacklisted domains",
+  "permissions": [
+    "storage",
+    "scripting",
+    "browsingData",
+    "tabs",
+    "activeTab"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

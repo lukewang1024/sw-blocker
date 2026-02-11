@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="header">
+      <h1>SW &amp; Cache Blocker</h1>
+      <p>Blacklist domains to block Service Worker &amp; Cache Storage</p>
+    </div>
+
+    <div class="current-site" id="current-site">
+      <span class="domain" id="current-domain">detecting...</span>
+      <button class="btn btn-sm btn-primary" id="toggle-current">Add</button>
+    </div>
+
+    <div class="input-row">
+      <input type="text" id="domain-input" placeholder="example.com" spellcheck="false" />
+      <button class="btn btn-primary" id="add-btn">Add</button>
+    </div>
+
+    <div class="list-header">
+      <span id="count-label">Blacklist (0)</span>
+      <button class="btn btn-sm btn-danger" id="clean-all-btn">Clean All</button>
+    </div>
+
+    <div class="domain-list" id="domain-list"></div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
