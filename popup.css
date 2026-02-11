@@ -134,6 +134,204 @@ body {
   font-size: 11px;
 }
 
+/* --- Presets Section --- */
+.presets-section {
+  border-bottom: 1px solid #313244;
+  padding: 10px 16px;
+}
+
+.presets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.presets-header span {
+  font-size: 11px;
+  color: #6c7086;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.preset-list:empty::after {
+  content: 'No presets available';
+  display: block;
+  text-align: center;
+  padding: 8px;
+  color: #585b70;
+  font-size: 12px;
+}
+
+.preset-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-bottom: 2px;
+  transition: background 0.1s;
+}
+
+.preset-item:hover {
+  background: #313244;
+}
+
+.preset-item .preset-info {
+  flex: 1;
+  min-width: 0;
+  margin-left: 10px;
+}
+
+.preset-item .preset-name {
+  font-size: 12px;
+  color: #cdd6f4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preset-item .preset-count {
+  font-size: 10px;
+  color: #6c7086;
+}
+
+.preset-item .preset-delete-btn {
+  background: transparent;
+  border: none;
+  color: #6c7086;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.preset-item:hover .preset-delete-btn {
+  opacity: 1;
+}
+
+.preset-item .preset-delete-btn:hover {
+  color: #f38ba8;
+  background: rgba(243, 139, 168, 0.1);
+}
+
+/* --- Toggle Switch --- */
+.toggle {
+  position: relative;
+  width: 32px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle .slider {
+  position: absolute;
+  inset: 0;
+  background: #45475a;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle .slider::before {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: 2px;
+  top: 2px;
+  background: #cdd6f4;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.toggle input:checked + .slider {
+  background: #89b4fa;
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(14px);
+}
+
+/* --- Modal --- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal {
+  background: #1e1e2e;
+  border: 1px solid #45475a;
+  border-radius: 10px;
+  padding: 16px;
+  width: 300px;
+  max-width: 90%;
+}
+
+.modal h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #cdd6f4;
+  margin-bottom: 12px;
+}
+
+.modal-label {
+  display: block;
+  font-size: 11px;
+  color: #6c7086;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.modal input,
+.modal textarea {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  background: #313244;
+  color: #cdd6f4;
+  font-size: 13px;
+  font-family: 'SF Mono', Menlo, monospace;
+  outline: none;
+  margin-bottom: 10px;
+  transition: border-color 0.15s;
+}
+
+.modal input:focus,
+.modal textarea:focus {
+  border-color: #89b4fa;
+}
+
+.modal textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
 /* --- Domain List --- */
 .list-header {
   display: flex;

@@ -1,5 +1,5 @@
 /**
- * Injected into MAIN world at document_start for blacklisted domains.
+ * Injected into MAIN world at document_start for blocked domains.
  * Blocks Service Worker registration and Cache Storage access.
  */
 (function () {

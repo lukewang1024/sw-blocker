@@ -2,9 +2,9 @@ const SCRIPT_ID = 'sw-cache-blocker-inject';
 
 // --- Dynamic content script registration ---
 
-async function getBlacklist() {
-  const { blacklist = [] } = await chrome.storage.sync.get('blacklist');
-  return blacklist;
+async function getBlocklist() {
+  const { blocklist = [] } = await chrome.storage.sync.get('blocklist');
+  return blocklist;
 }
 
 // *.feishu.cn  → *://*.feishu.cn/*
@@ -21,12 +21,12 @@ async function updateContentScripts() {
     await chrome.scripting.unregisterContentScripts({ ids: [SCRIPT_ID] });
   } catch (_) {}
 
-  const blacklist = await getBlacklist();
-  updateBadge(blacklist.length);
+  const blocklist = await getBlocklist();
+  updateBadge(blocklist.length);
 
-  if (blacklist.length === 0) return;
+  if (blocklist.length === 0) return;
 
-  const matches = blacklist.flatMap(domainToMatchPatterns);
+  const matches = blocklist.flatMap(domainToMatchPatterns);
 
   await chrome.scripting.registerContentScripts([
     {
@@ -51,7 +51,7 @@ chrome.runtime.onInstalled.addListener(updateContentScripts);
 chrome.runtime.onStartup.addListener(updateContentScripts);
 
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === 'sync' && changes.blacklist) {
+  if (area === 'sync' && changes.blocklist) {
     updateContentScripts();
   }
 });
@@ -95,36 +95,7 @@ async function unregisterSWsOnTab(tabId) {
     func: async () => {
       if (!navigator.serviceWorker) return { origin: location.origin, count: 0, scopes: [], error: null };
       try {
-        // Primary: getRegistrations() should return ALL registrations for the origin
-        let regs = await navigator.serviceWorker.getRegistrations();
-
-        // Fallback: if getRegistrations() returns 0, try getRegistration(url) with
-        // paths discovered from the page's navigation links. Some Chrome versions may
-        // not return cross-scope registrations from getRegistrations().
-        if (regs.length === 0) {
-          const paths = new Set(['/']);
-          document.querySelectorAll('a[href]').forEach((a) => {
-            try {
-              const url = new URL(a.href, location.origin);
-              if (url.origin === location.origin) {
-                const seg = url.pathname.split('/').filter(Boolean)[0];
-                if (seg) paths.add('/' + seg + '/');
-              }
-            } catch {}
-          });
-          const found = new Map();
-          for (const p of paths) {
-            try {
-              const r = await navigator.serviceWorker.getRegistration(location.origin + p);
-              if (r && !found.has(r.scope)) found.set(r.scope, r);
-            } catch {}
-          }
-          if (found.size > 0) {
-            console.log('[SWCB] getRegistrations() returned 0, but getRegistration() found:', [...found.keys()]);
-            regs = [...found.values()];
-          }
-        }
-
+        const regs = await navigator.serviceWorker.getRegistrations();
         const scopes = regs.map((r) => r.scope);
         await Promise.all(regs.map((r) => r.unregister()));
         return { origin: location.origin, count: regs.length, scopes, error: null };

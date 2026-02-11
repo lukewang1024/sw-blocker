@@ -7,7 +7,7 @@
   <body>
     <div class="header">
       <h1>SW &amp; Cache Blocker</h1>
-      <p>Blacklist domains to block Service Worker &amp; Cache Storage</p>
+      <p>Block Service Worker &amp; Cache Storage for selected domains</p>
     </div>
 
     <div class="current-site" id="current-site">
@@ -20,8 +20,30 @@
       <button class="btn btn-primary" id="add-btn">Add</button>
     </div>
 
+    <div class="presets-section">
+      <div class="presets-header">
+        <span>Presets</span>
+        <button class="btn btn-sm btn-ghost" id="new-preset-btn">+ New</button>
+      </div>
+      <div class="preset-list" id="preset-list"></div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal">
+        <h3>New Custom Preset</h3>
+        <label class="modal-label" for="preset-name-input">Name</label>
+        <input type="text" id="preset-name-input" placeholder="My Preset" spellcheck="false" />
+        <label class="modal-label" for="preset-domains-input">Domains (one per line)</label>
+        <textarea id="preset-domains-input" rows="4" placeholder="example.com&#10;*.example.org" spellcheck="false"></textarea>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="modal-cancel-btn">Cancel</button>
+          <button class="btn btn-primary" id="modal-create-btn">Create</button>
+        </div>
+      </div>
+    </div>
+
     <div class="list-header">
-      <span id="count-label">Blacklist (0)</span>
+      <span id="count-label">Blocklist (0)</span>
       <button class="btn btn-sm btn-danger" id="clean-all-btn">Clean All</button>
     </div>
 
